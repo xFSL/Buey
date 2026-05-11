@@ -196,6 +196,39 @@ export const mockEvents: Event[] = [
     maxAttendees: 40,
     isSignedUp: false,
   },
+  {
+    id: '7',
+    title: 'Community Garden Spring Planting',
+    description: 'Help plant vegetables and flowers for the community garden. Tools and seeds provided!',
+    date: new Date('2026-05-15T09:00:00'),
+    location: {
+      address: '890 Garden Lane, Springfield',
+      lat: 37.7749,
+      lng: -122.4294,
+    },
+    communityId: '1',
+    communityName: 'Downtown Volunteers',
+    category: 'Volunteering',
+    attendees: 28,
+    maxAttendees: 50,
+    isSignedUp: false,
+  },
+  {
+    id: '8',
+    title: 'Local Art & Craft Fair',
+    description: 'Showcase of local artists and craftspeople. Free admission, come support local creators!',
+    date: new Date('2026-05-18T11:00:00'),
+    location: {
+      address: '234 Community Center Dr, Springfield',
+      lat: 37.7649,
+      lng: -122.4194,
+    },
+    communityId: '4',
+    communityName: 'Local Farmers Market',
+    category: 'Market',
+    attendees: 87,
+    isSignedUp: false,
+  },
 ];
 
 export const mockNotifications: Notification[] = [

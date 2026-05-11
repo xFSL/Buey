@@ -1,33 +1,99 @@
+import { useState, useRef } from 'react';
 import { mockUser, mockEvents, mockCommunities } from '../data/mockData';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
-import { Calendar, Users, Settings } from 'lucide-react';
+import { Calendar, Users, Settings, Pencil, Camera } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { format } from 'date-fns';
 
 export function Profile() {
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [profileImage, setProfileImage] = useState(mockUser.avatarUrl);
   const userEvents = mockEvents.filter(e => e.isSignedUp);
   const userCommunities = mockCommunities.filter(c => c.isMember);
+
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleEditClick = (field: string) => {
+    alert(`Edit ${field} functionality would go here`);
+  };
 
   return (
     <div className="p-4 space-y-6">
       {/* Profile Header */}
       <div className="flex flex-col items-center text-center space-y-4">
-        <Avatar className="h-24 w-24">
-          <AvatarImage src={mockUser.avatarUrl} alt={mockUser.name} />
-          <AvatarFallback>{mockUser.name.charAt(0)}</AvatarFallback>
-        </Avatar>
-        
-        <div>
-          <h1 className="text-2xl font-bold">{mockUser.name}</h1>
-          <p className="text-gray-600 dark:text-gray-400">{mockUser.email}</p>
+        <div className="relative group cursor-pointer" onClick={handleImageClick}>
+          <Avatar className="h-24 w-24">
+            <AvatarImage src={profileImage} alt={mockUser.name} />
+            <AvatarFallback>{mockUser.name.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <Camera className="h-8 w-8 text-white" />
+          </div>
+        </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleFileChange}
+        />
+
+        <div className="w-full max-w-md space-y-2">
+          <div className="flex items-center justify-center gap-2">
+            <h1 className="text-2xl font-bold">{mockUser.name}</h1>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => handleEditClick('name')}
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <p className="text-gray-600 dark:text-gray-400">{mockUser.email}</p>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => handleEditClick('email')}
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
 
-        <p className="text-gray-700 dark:text-gray-300 max-w-md">
-          {mockUser.bio}
-        </p>
+        <div className="w-full max-w-md">
+          <div className="flex items-start gap-2">
+            <p className="text-gray-700 dark:text-gray-300 flex-1 text-left">
+              {mockUser.bio}
+            </p>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 flex-shrink-0"
+              onClick={() => handleEditClick('bio')}
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
 
         <Button onClick={() => navigate('/settings')} variant="outline">
           <Settings className="h-4 w-4 mr-2" />

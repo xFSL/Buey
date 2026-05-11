@@ -77,7 +77,7 @@ export function Discover() {
         </Select>
       </div>
 
-      {/* <div>
+      <div>
         <h2 className="text-lg font-semibold mb-3">
           Recommended Events
           <span className="text-sm font-normal text-gray-600 dark:text-gray-400 ml-2">
@@ -95,7 +95,7 @@ export function Discover() {
             ))}
           </div>
         )}
-      </div> */}
+      </div>
     </div>
   );
 }
