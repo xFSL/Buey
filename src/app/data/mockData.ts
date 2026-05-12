@@ -125,7 +125,7 @@ export const mockEvents: Event[] = [
     communityId: '2',
     communityName: 'Tech Meetup Group',
     category: 'Meetup',
-    attendees: 45,
+    attendees: 2,
     maxAttendees: 60,
     isSignedUp: true,
   },
