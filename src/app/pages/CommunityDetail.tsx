@@ -27,15 +27,15 @@ export function CommunityDetail() {
   }
 
   const mockMembers = [
-    { id: '1', name: 'Sarah Johnson', avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop', role: 'Admin' },
-    { id: '2', name: 'Michael Chen', avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop', role: 'Moderator' },
-    { id: '3', name: 'Emily Rodriguez', avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop', role: 'Member' },
-    { id: '4', name: 'David Kim', avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop', role: 'Member' },
+    { id: '1', name: 'Martel Price', avatarUrl: 'https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1706052768/ousdorg/d3wuhti4vgdwiskjolbi/Price-Martel-staff.jpg', role: 'Admin' },
+    { id: '2', name: 'Michael Chen', avatarUrl: 'https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1756171270/ousdorg/dyrjlduy0iwof6r6t9s3/staffphoto2024.jpg', role: 'Admin' },
+    { id: '3', name: 'Dr. De’Shawn Woolridge', avatarUrl: 'https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1706052774/ousdorg/kzbjoblkhk4xkxluke5z/Woolridge-DeShawn-staff.jpg', role: 'Moderator' },
+    { id: '4', name: 'Susheela Moonsamy', avatarUrl: 'https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1706052764/ousdorg/ccgkzfpvpj1ouazjmpr3/Moonsamy-Susheela-staff.jpg', role: 'Counselor' },
   ];
 
   const mockAnnouncements = [
-    { id: '1', title: 'Welcome to our community!', date: new Date('2026-04-10'), content: 'We\'re excited to have you here.' },
-    { id: '2', title: 'Upcoming event changes', date: new Date('2026-04-12'), content: 'Please note the venue change for next week.' },
+    { id: '1', title: 'Changes', date: new Date('2026-09-15'), content: 'We\'re going to no longer allow sitting in class.' },
+    { id: '2', title: 'Congratulations!', date: new Date('2029-03-09'), content: 'Seniors and teachers will swap roles for a week. We hope this will allow reflection.' },
   ];
 
   return (
@@ -166,11 +166,11 @@ export function CommunityDetail() {
             <Card className="p-4">
               <h3 className="font-semibold mb-3">Community Guidelines</h3>
               <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700 dark:text-gray-300">
-                <li>Be respectful and kind to all members</li>
-                <li>No spam or self-promotion without permission</li>
-                <li>Keep discussions relevant to the community</li>
-                <li>Respect privacy and confidentiality</li>
-                <li>Report any inappropriate behavior to moderators</li>
+                <li>Do not use your phone unless you are on Buey</li>
+                <li>Do not use drugs or substances that can impair cognitive ability</li>
+                <li>No using internet slang such as "6 7"</li>
+                <li>Respect others</li>
+                <li>Understand that you must push the rock</li>
               </ol>
             </Card>
           </TabsContent>

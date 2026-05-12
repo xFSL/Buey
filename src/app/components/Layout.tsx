@@ -6,7 +6,7 @@ const navItems = [
   { path: '/', icon: Home, label: 'Home' },
   { path: '/map', icon: Map, label: 'Map' },
   { path: '/discover', icon: Compass, label: 'Discover' },
-  { path: '/community', icon: Users, label: 'Social' },
+  { path: '/social', icon: Users, label: 'Social' },
   { path: '/profile', icon: User, label: 'Profile' },
 ];
 
@@ -14,7 +14,7 @@ const pageNames: Record<string, string> = {
   '/': 'Home',
   '/map': 'Map',
   '/discover': 'Discover',
-  '/community': 'Social',
+  '/social': 'Social',
   '/profile': 'Profile',
   '/notifications': 'Notifications',
   '/settings': 'Settings',

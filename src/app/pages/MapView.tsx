@@ -4,11 +4,14 @@ import { mockEvents } from '../data/mockData';
 import { MapPin, Layers } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
+import { Checkbox } from '../components/ui/checkbox';
+import { Label } from '../components/ui/label';
 
 export function MapView() {
   const [searchQuery, setSearchQuery] = useState('');
-  // const [viewMode, setViewMode] = useState<'map' | 'satellite'>('map');
   const [viewMode, setViewMode] = useState<'road' | 'satellite'>('road');
+  const [showUpcoming, setShowUpcoming] = useState(true);
+  const [showPast, setShowPast] = useState(true);
 
   const filteredEvents = mockEvents.filter(event =>
     event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -17,6 +20,9 @@ export function MapView() {
 
   const upcomingEvents = filteredEvents.filter(e => e.date >= new Date());
   const pastEvents = filteredEvents.filter(e => e.date < new Date());
+
+  const visibleUpcomingEvents = showUpcoming ? upcomingEvents : [];
+  const visiblePastEvents = showPast ? pastEvents : [];
 
   return (
     <div className="h-full flex flex-col">
@@ -27,21 +33,46 @@ export function MapView() {
           onChange={setSearchQuery}
         />
         
-        <div className="flex items-center gap-2">
-          <Button
-            variant={viewMode === 'road' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setViewMode('road')}
-          >
-            Roadview
-          </Button>
-          <Button
-            variant={viewMode === 'satellite' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setViewMode('satellite')}
-          >
-            Satellite
-          </Button>
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <Button
+              variant={viewMode === 'road' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setViewMode('road')}
+            >
+              Roadview
+            </Button>
+            <Button
+              variant={viewMode === 'satellite' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setViewMode('satellite')}
+            >
+              Satellite
+            </Button>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="upcoming"
+                checked={showUpcoming}
+                onCheckedChange={(checked) => setShowUpcoming(checked as boolean)}
+              />
+              <Label htmlFor="upcoming" className="text-sm cursor-pointer">
+                Upcoming
+              </Label>
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="past"
+                checked={showPast}
+                onCheckedChange={(checked) => setShowPast(checked as boolean)}
+              />
+              <Label htmlFor="past" className="text-sm cursor-pointer">
+                Past
+              </Label>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -52,14 +83,14 @@ export function MapView() {
             <Layers className="h-12 w-12 mx-auto mb-2 text-gray-400" />
             <p className="text-gray-600 dark:text-gray-400">Interactive Map View</p>
             <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
-              Showing {upcomingEvents.length} upcoming events
+              Showing {visibleUpcomingEvents.length + visiblePastEvents.length} events
             </p>
           </div>
         </div>
 
         {/* Event Pins Overlay - Visual representation */}
         <div className="absolute inset-0 p-8">
-          {upcomingEvents.slice(0, 5).map((event, index) => (
+          {visibleUpcomingEvents.slice(0, 5).map((event, index) => (
             <div
               key={event.id}
               className="absolute"
@@ -81,8 +112,8 @@ export function MapView() {
               </div>
             </div>
           ))}
-          
-          {pastEvents.slice(0, 3).map((event, index) => (
+
+          {visiblePastEvents.slice(0, 3).map((event, index) => (
             <div
               key={event.id}
               className="absolute"

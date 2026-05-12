@@ -3,7 +3,9 @@ import { mockUser, mockEvents, mockCommunities } from '../data/mockData';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
-import { Calendar, Users, Settings, Pencil, Camera } from 'lucide-react';
+import { Input } from '../components/ui/input';
+import { Textarea } from '../components/ui/textarea';
+import { Calendar, Users, Settings, Pencil, Camera, Check, X } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { format } from 'date-fns';
 
@@ -11,6 +13,12 @@ export function Profile() {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [profileImage, setProfileImage] = useState(mockUser.avatarUrl);
+  const [name, setName] = useState(mockUser.name);
+  const [email, setEmail] = useState(mockUser.email);
+  const [bio, setBio] = useState(mockUser.bio);
+  const [editingField, setEditingField] = useState<'name' | 'email' | 'bio' | null>(null);
+  const [tempValue, setTempValue] = useState('');
+
   const userEvents = mockEvents.filter(e => e.isSignedUp);
   const userCommunities = mockCommunities.filter(c => c.isMember);
 
@@ -29,8 +37,24 @@ export function Profile() {
     }
   };
 
-  const handleEditClick = (field: string) => {
-    alert(`Edit ${field} functionality would go here`);
+  const handleEditClick = (field: 'name' | 'email' | 'bio') => {
+    setEditingField(field);
+    if (field === 'name') setTempValue(name);
+    if (field === 'email') setTempValue(email);
+    if (field === 'bio') setTempValue(bio);
+  };
+
+  const handleSave = () => {
+    if (editingField === 'name') setName(tempValue);
+    if (editingField === 'email') setEmail(tempValue);
+    if (editingField === 'bio') setBio(tempValue);
+    setEditingField(null);
+    setTempValue('');
+  };
+
+  const handleCancel = () => {
+    setEditingField(null);
+    setTempValue('');
   };
 
   return (
@@ -56,43 +80,130 @@ export function Profile() {
 
         <div className="w-full max-w-md space-y-2">
           <div className="flex items-center justify-center gap-2">
-            <h1 className="text-2xl font-bold">{mockUser.name}</h1>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              onClick={() => handleEditClick('name')}
-            >
-              <Pencil className="h-4 w-4" />
-            </Button>
+            {editingField === 'name' ? (
+              <>
+                <Input
+                  value={tempValue}
+                  onChange={(e) => setTempValue(e.target.value)}
+                  className="text-center text-2xl font-bold h-10"
+                  autoFocus
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={handleSave}
+                >
+                  <Check className="h-4 w-4 text-green-600" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={handleCancel}
+                >
+                  <X className="h-4 w-4 text-red-600" />
+                </Button>
+              </>
+            ) : (
+              <>
+                <h1 className="text-2xl font-bold">{name}</h1>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => handleEditClick('name')}
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+              </>
+            )}
           </div>
           <div className="flex items-center justify-center gap-2">
-            <p className="text-gray-600 dark:text-gray-400">{mockUser.email}</p>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              onClick={() => handleEditClick('email')}
-            >
-              <Pencil className="h-4 w-4" />
-            </Button>
+            {editingField === 'email' ? (
+              <>
+                <Input
+                  value={tempValue}
+                  onChange={(e) => setTempValue(e.target.value)}
+                  className="text-center"
+                  type="email"
+                  autoFocus
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={handleSave}
+                >
+                  <Check className="h-4 w-4 text-green-600" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={handleCancel}
+                >
+                  <X className="h-4 w-4 text-red-600" />
+                </Button>
+              </>
+            ) : (
+              <>
+                <p className="text-gray-600 dark:text-gray-400">{email}</p>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => handleEditClick('email')}
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+              </>
+            )}
           </div>
         </div>
 
         <div className="w-full max-w-md">
-          <div className="flex items-start gap-2">
-            <p className="text-gray-700 dark:text-gray-300 flex-1 text-left">
-              {mockUser.bio}
-            </p>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 flex-shrink-0"
-              onClick={() => handleEditClick('bio')}
-            >
-              <Pencil className="h-4 w-4" />
-            </Button>
-          </div>
+          {editingField === 'bio' ? (
+            <div className="space-y-2">
+              <Textarea
+                value={tempValue}
+                onChange={(e) => setTempValue(e.target.value)}
+                className="min-h-[100px]"
+                autoFocus
+              />
+              <div className="flex justify-end gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCancel}
+                >
+                  <X className="h-4 w-4 mr-1" />
+                  Cancel
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={handleSave}
+                >
+                  <Check className="h-4 w-4 mr-1" />
+                  Save
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <p className="text-gray-700 dark:text-gray-300 flex-1 text-center">
+                {bio}
+              </p>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 flex-shrink-0 self-start"
+                onClick={() => handleEditClick('bio')}
+              >
+                <Pencil className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
         </div>
 
         <Button onClick={() => navigate('/settings')} variant="outline">
