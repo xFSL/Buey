@@ -79,7 +79,7 @@ export function Discover() {
 
       <div>
         <h2 className="text-lg font-semibold mb-3">
-          Recommended Events
+          Events the Algorithm wants you to partake in
           <span className="text-sm font-normal text-gray-600 dark:text-gray-400 ml-2">
             ({sortedEvents.length})
           </span>
